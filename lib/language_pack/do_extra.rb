@@ -23,6 +23,8 @@ class LanguagePack::DoExtra < LanguagePack::Base
     cmd2 = "export GEM_HOME=#{ENV["GEM_HOME"]};"
     cmd3 = "/bin/bash #{bps}/doextra.sh"
     cmds = "#{cmd1} #{cmd2} #{cmd3} "
-    bundler_output << pipe("cmds")
+    extra_output = ""
+    extra_output << pipe("cmds")
+    puts "Extra Output: #{extra_output}"
   end
 end
