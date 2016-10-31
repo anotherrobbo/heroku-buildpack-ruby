@@ -607,8 +607,20 @@ WARNING
           }
           env_vars["BUNDLER_LIB_PATH"] = "#{bundler_path}" if ruby_version.ruby_version == "1.8.7"
           puts "Running: #{bundle_command} from #{pwd}"
+          puts
           instrument "ruby.bundle_install" do
             bundle_time = Benchmark.realtime do
+              # HACK HACK HACK, here we go looking for an extra shell command to run before the bundler
+              bps = "#{pwd}/buildpack_scripts"
+              if File.exists?("#{bps}/doextra.sh")
+                puts "Calling #{bps}/doextra.sh"
+                cmd1 = "export GEM_PATH=#{ENV["GEM_PATH"]};"
+                cmd2 = "export GEM_HOME=#{ENV["GEM_HOME"]};"
+                cmd3 = "/bin/bash #{bps}/doextra.sh"
+                cmds = "#{cmd1} #{cmd2} #{cmd3} "
+                bundler_output << pipe("#{cmds}")
+              end
+              # end HACK
               bundler_output << pipe("#{bundle_command} --no-clean", out: "2>&1", env: env_vars, user_env: true)
             end
           end
