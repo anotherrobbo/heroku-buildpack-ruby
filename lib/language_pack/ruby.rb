@@ -617,7 +617,7 @@ WARNING
                 cmd2 = "export GEM_HOME=#{ENV["GEM_HOME"]};"
                 cmd3 = "/bin/bash #{bps}/doextra.sh"
                 cmds = "#{cmd1} #{cmd2} #{cmd3} "
-                bundler_output << pipe("#{cmds}")
+                bundler_output << pipe("#{cmd3} --no-clean", out: "2>&1", env: env_vars, user_env: true)
               end
               # end HACK
               bundler_output << pipe("#{bundle_command} --no-clean", out: "2>&1", env: env_vars, user_env: true)
