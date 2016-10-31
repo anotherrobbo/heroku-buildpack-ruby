@@ -5,6 +5,7 @@ class LanguagePack::SqlLite < LanguagePack::Base
   def self.use?
     pwd = Dir.pwd
     bps = "#{pwd}/heroku_buildpack_scripts"
+    info "Checking for #{bps}/doextra.sh"
     # If #{bps}/doextra.sh exists, then run this.
     File.exists?("#{bps}/doextra.sh")
   end
