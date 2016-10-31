@@ -607,7 +607,6 @@ WARNING
           }
           env_vars["BUNDLER_LIB_PATH"] = "#{bundler_path}" if ruby_version.ruby_version == "1.8.7"
           puts "Running: #{bundle_command} from #{pwd}"
-          puts
           instrument "ruby.bundle_install" do
             bundle_time = Benchmark.realtime do
               # HACK HACK HACK, here we go looking for an extra shell command to run before the bundler
