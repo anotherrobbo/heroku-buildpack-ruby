@@ -15,6 +15,11 @@ class LanguagePack::DoExtra < LanguagePack::Rails5
   end
 
   def compile
+    # Initial setup from ruby.rb
+    setup_language_pack_environment
+    setup_export
+    setup_profiled
+    
     # Here we do the actual extra script running
     pwd = Dir.pwd
     bps = "#{pwd}/buildpack_scripts"
