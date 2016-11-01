@@ -550,7 +550,7 @@ WARNING
       log("bundle") do
         bundle_without = env("BUNDLE_WITHOUT") || "development:test"
         bundle_bin     = "bundle"
-        bundle_command = "gem environment;#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
+        bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
         if File.exist?("#{Dir.pwd}/.bundle/config")
@@ -613,11 +613,8 @@ WARNING
               bps = "#{pwd}/buildpack_scripts"
               if File.exists?("#{bps}/doextra.sh")
                 puts "Calling #{bps}/doextra.sh"
-                cmd1 = "export GEM_PATH=#{ENV["GEM_PATH"]};"
-                cmd2 = "export GEM_HOME=#{ENV["GEM_HOME"]};"
-                cmd3 = "/bin/bash #{bps}/doextra.sh"
-                cmds = "#{cmd1} #{cmd2} #{cmd3} "
-                bundler_output << pipe("#{cmd3} --no-clean", out: "2>&1", env: env_vars, user_env: true)
+                extra_cmd = "/bin/bash #{bps}/doextra.sh"
+                bundler_output << pipe("#{extra_cmd} --no-clean", out: "2>&1", env: env_vars, user_env: true)
               end
               # end HACK
               bundler_output << pipe("#{bundle_command} --no-clean", out: "2>&1", env: env_vars, user_env: true)
